@@ -30,13 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^17.0.0  # Untuk notifikasi lokal
   http: ^0.13.5          # Untuk HTTP requests ke KEGG API
   provider: ^6.0.5       # State management sederhana
   sqflite: ^2.3.0        # SQLite lokal (jika perlu)
   path_provider: ^2.0.14 # Membantu akses path penyimpanan lokal
   hive: ^2.2.3           # Alternatif database lokal ringan
   geolocator: ^9.0.2     # Location Based Service (LBS)
-  flutter_local_notifications: ^12.0.4  # Notifikasi lokal
   intl: ^0.18.1          # Format tanggal & zona waktu
   sensors_plus: ^3.0.1   # Akses sensor (accelerometer, gyroscope)
   path: ^1.9.0                # Manipulasi path file
