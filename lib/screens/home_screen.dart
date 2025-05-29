@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import '../utils/session_manager.dart';
 
 class HomeScreen extends StatelessWidget {
-  void _logout(BuildContext context) async {
-    await SessionManager.logout();
-    Navigator.pushReplacementNamed(context, '/login');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PharmaCare")),
-      body: Center(child: Text("Selamat datang!")),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _logout(context),
-        child: Icon(Icons.logout),
-        tooltip: 'Logout',
+      appBar: AppBar(title: Text("Beranda")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Navigasi ke halaman cek interaksi
+              },
+              child: Text("Cek Interaksi Obat"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigasi ke halaman pencarian data obat
+              },
+              child: Text("Cari Data Obat"),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,9 @@
-import 'package:aplikasi_farmasi/screens/home_screen.dart';
-import 'package:aplikasi_farmasi/screens/login_screen.dart';
-import 'package:aplikasi_farmasi/screens/register_screen.dart';
-import 'package:aplikasi_farmasi/utils/session_manager.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/login_screen.dart';
+import 'screens/main_nav_screen.dart';
+import 'screens/register_screen.dart';
+import 'utils/session_manager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,13 +24,13 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           }
-          return snapshot.data == true ? HomeScreen() : LoginScreen();
+          return snapshot.data == true ? MainNavigationScreen() : LoginScreen();
         },
       ),
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => MainNavigationScreen(),
       },
     );
   }
