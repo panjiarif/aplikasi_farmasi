@@ -1,6 +1,6 @@
 # aplikasi_farmasi
 
-A new Flutter project.
+Proyek Akhir Teknologi Pemrgraman Mobile
 
 ## Getting Started
 
