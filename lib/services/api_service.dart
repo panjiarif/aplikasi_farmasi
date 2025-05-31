@@ -28,10 +28,19 @@ class ApiService {
 
   /// Mendapatkan daftar turunan dari nama obat seperti Ibuprofen
   Future<List<Map<String, String>>> searchDrugByName(String name) async {
+    if (name.isEmpty) {
+      throw Exception('Nama obat tidak boleh kosong');
+    }
+
     final url = Uri.parse('$baseUrl/find/drug/$name');
 
     try {
       final response = await http.get(url);
+      
+      print('Searching for drug: $name'); // Debugging line
+      print('Request URL: $url'); // Debugging line
+      print('Response status: ${response.statusCode}'); // Debugging line
+      print('Response body: ${response.body}'); // Debugging line
 
       if (response.statusCode == 200) {
         final lines = response.body.split('\n');
