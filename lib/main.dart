@@ -1,4 +1,6 @@
+import 'package:aplikasi_farmasi/providers/cek_interaksi_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/main_nav_screen.dart';
@@ -6,7 +8,14 @@ import 'screens/register_screen.dart';
 import 'utils/session_manager.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CekInteraksiProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

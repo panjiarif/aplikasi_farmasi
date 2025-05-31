@@ -15,6 +15,9 @@ class CekInteraksiProvider with ChangeNotifier {
     isLoading = true;
     error = '';
     interaksi = [];
+    namaObat1 = '';
+    namaObat2 = '';
+    notifyListeners();
 
     try {
       final list1 = await _apiService.searchDrugByName(obat1);
@@ -29,7 +32,8 @@ class CekInteraksiProvider with ChangeNotifier {
       namaObat1 = list1.first['name'];
       namaObat2 = list2.first['name'];
 
-
+      // debug
+      print('Obat 1: $namaObat1, Obat 2: $namaObat2');
 
       if (list1.isEmpty || list2.isEmpty) {
         error = 'Obat tidak ditemukan';
@@ -39,14 +43,17 @@ class CekInteraksiProvider with ChangeNotifier {
       }else{
         final id1 = list1.first['id']!;
         final id2 = list2.first['id']!;
+        // debug
+        print('ID Obat 1: $id1, ID Obat 2: $id2');
         interaksi = await _apiService.getDrugInteractions([id1, id2]);
       }
 
     } catch (e) {
       error = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
 
-    isLoading = false;
-    notifyListeners();
   }
 }

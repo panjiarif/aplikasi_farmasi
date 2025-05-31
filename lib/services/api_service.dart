@@ -11,12 +11,29 @@ class ApiService {
 
     try {
       final response = await http.get(url);
+      print("sampai sini"); // Debugging line
+      print('Request URL: $url'); // Debugging line
+
+      if (response.statusCode == 404) {
+        // Tidak ada interaksi ditemukan
+        print('Tidak ada interaksi ditemukan untuk: $ids'); // Debugging line
+        return [];
+      }
+
+      print('Searching for ddi: $ids'); // Debugging line
+      print('Response status: ${response.statusCode}'); // Debugging line
+      print('Response body: ${response.body}'); // Debugging line
+
+      if (response.statusCode != 200) {
+        throw Exception("Gagal mengambil data ${response.statusCode}");
+      }
 
       if (response.statusCode == 200) {
         // KEGG mengembalikan teks biasa, jadi kita parse manual
         final body = response.body;
         final lines = body.split('\n');
-        List<String> interactions = lines.where((line) => line.trim().isNotEmpty).toList();
+        List<String> interactions =
+            lines.where((line) => line.trim().isNotEmpty).toList();
         return interactions;
       } else {
         throw Exception('Gagal mengambil data: ${response.statusCode}');
@@ -36,13 +53,17 @@ class ApiService {
 
     try {
       final response = await http.get(url);
-      
+
       print('Searching for drug: $name'); // Debugging line
       print('Request URL: $url'); // Debugging line
       print('Response status: ${response.statusCode}'); // Debugging line
       print('Response body: ${response.body}'); // Debugging line
 
       if (response.statusCode == 200) {
+        if (response.body.trim().isEmpty) {
+          return []; // obat tidak ditemukan
+        }
+
         final lines = response.body.split('\n');
         List<Map<String, String>> results = [];
 
