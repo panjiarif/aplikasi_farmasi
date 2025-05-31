@@ -19,10 +19,12 @@ class _CekInteraksiScreenState extends State<CekInteraksiScreen> {
     if (namaObat1.isEmpty || namaObat2.isEmpty) {
       _showErrorDialog(context, "Nama obat tidak boleh kosong.");
       return;
-    }
-
-    if (namaObat1.length < 3 || namaObat2.length < 3) {
+    } else if (namaObat1.length < 3 || namaObat2.length < 3) {
       _showErrorDialog(context, "Nama obat minimal terdiri dari 3 huruf.");
+      return;
+    } else if (namaObat1.length > 50 || namaObat2.length > 50) {
+      _showErrorDialog(
+          context, "Nama obat terlalu panjang, maksimal 50 huruf.");
       return;
     }
 
@@ -49,97 +51,99 @@ class _CekInteraksiScreenState extends State<CekInteraksiScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration.zero, () {
+        final provider = Provider.of<CekInteraksiProvider>(context, listen: false);
+        provider.reset();
+      });
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Cek Interaksi Obat')),
       body: Padding(
-  padding: const EdgeInsets.all(16),
-  child: Consumer<CekInteraksiProvider>(
-    builder: (context, provider, _) {
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _drug1Controller,
-              decoration: InputDecoration(labelText: "Nama Obat 1"),
-            ),
-            TextField(
-              controller: _drug2Controller,
-              decoration: InputDecoration(labelText: "Nama Obat 2"),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: provider.isLoading
-                  ? null
-                  : () => _cekInteraksi(context),
-              child: Text("Cek Interaksi"),
-            ),
-            SizedBox(height: 24),
-
-            // Loading
-            if (provider.isLoading)
-              Center(child: CircularProgressIndicator()),
-
-            // Jika tidak loading, tampilkan hasil
-            if (!provider.isLoading &&
-                (_drug1Controller.text.isNotEmpty &&
-                    _drug2Controller.text.isNotEmpty)) ...[
-              Text(
-                "Interaksi antara:",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 4),
-              Text(provider.namaObat1?.isNotEmpty == true
-                  ? provider.namaObat1!
-                  : _drug1Controller.text),
-              Text("dengan", style: TextStyle(fontWeight: FontWeight.bold),),
-              Text(provider.namaObat2?.isNotEmpty == true
-                  ? provider.namaObat2!
-                  : _drug2Controller.text),
-              Divider(height: 32),
-
-              // Error
-              if (provider.error.isNotEmpty)
-                Text(provider.error,
-                    style: TextStyle(color: Colors.red)),
-
-              // Tidak ada interaksi
-              if (provider.error.isEmpty &&
-                  provider.interaksi.isEmpty)
-                Text(
-                  "Tidak ditemukan interaksi antara obat tersebut.",
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-
-              // Ada interaksi
-              if (provider.interaksi.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.all(16),
+          child: Consumer<CekInteraksiProvider>(
+            builder: (context, provider, _) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("Hasil Interaksi:",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: provider.interaksi.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Text("• ${provider.interaksi[index]}"),
-                        );
-                      },
+                    TextField(
+                      controller: _drug1Controller,
+                      decoration: InputDecoration(labelText: "Nama Obat 1"),
                     ),
+                    TextField(
+                      controller: _drug2Controller,
+                      decoration: InputDecoration(labelText: "Nama Obat 2"),
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: provider.isLoading
+                          ? null
+                          : () => _cekInteraksi(context),
+                      child: Text("Cek Interaksi"),
+                    ),
+                    SizedBox(height: 24),
+                    if (provider.isLoading)
+                      Center(child: CircularProgressIndicator()),
+                    if (!provider.isLoading) ...[
+                      if (provider.error.isNotEmpty)
+                        Text(provider.error,
+                            style: TextStyle(color: Colors.red)),
+                      if (provider.error.isEmpty &&
+                          provider.interaksi.isEmpty &&
+                          (provider.namaObat1?.isNotEmpty ?? false) &&
+                          (provider.namaObat2?.isNotEmpty ?? false))
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Interaksi antara:",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(provider.namaObat1!),
+                            Text("dengan"),
+                            Text(provider.namaObat2!),
+                            SizedBox(height: 8),
+                            Divider(height: 32),
+                            Text(
+                              "Tidak ditemukan interaksi antara obat tersebut.",
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      if (provider.interaksi.isNotEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Interaksi antara:",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(provider.namaObat1!),
+                            Text("dengan"),
+                            Text(provider.namaObat2!),
+                            SizedBox(height: 16),
+                            Divider(height: 32),
+                            Text("Hasil Interaksi:",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            ...provider.interaksi.map((item) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: Text("• $item",
+                                      style: TextStyle(fontSize: 16)),
+                                )),
+                          ],
+                        ),
+                    ],
                   ],
                 ),
-            ],
-          ],
-        ),
-      );
-    },
-  ),
-),
+              );
+            },
+          )),
     );
   }
 }
