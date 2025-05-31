@@ -81,7 +81,47 @@ class ApiService {
         throw Exception('Gagal mencari obat: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Kesalahan saat pencarian obat: $e');
+      throw Exception('Kesalahan saat pencarian obat: $e'); 
+    }
+  }
+
+  /// Cari obat berdasarkan nama (misal: ibuprofen)
+  static Future<List<Map<String, String>>> searchObatByName(String query) async {
+    final url = Uri.parse('$baseUrl/find/drug/$query');
+    final response = await http.get(url);
+
+    print('Searching for drug: $query'); // Debugging line
+    print('Request URL: $url'); // Debugging line
+    print('Response status: ${response.statusCode}'); // Debugging line
+    print('Response body: ${response.body}'); // Debugging line
+
+
+    if (response.statusCode == 200) {
+      if (response.body.trim().isEmpty) {
+          return []; // obat tidak ditemukan
+        }
+      final lines = response.body.trim().split('\n');
+      return lines.map((line) {
+        final parts = line.split('\t');
+        final id = parts[0].replaceFirst('dr:', '');
+        final nama = parts[1];
+        return {'id': id, 'nama': nama};
+      }).toList();
+    } else {
+      throw Exception('Gagal mengambil data dari KEGG');
+    }
+  }
+
+  /// Ambil detail obat berdasarkan ID (misal: D00126)
+  static Future<String> getObatDetailById(String id) async {
+    final url = Uri.parse('$baseUrl/get/drug:$id');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Gagal mengambil detail obat');
     }
   }
 }
+

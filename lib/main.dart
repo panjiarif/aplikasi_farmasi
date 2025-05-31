@@ -1,3 +1,4 @@
+import 'package:aplikasi_farmasi/providers/cari_obat_provider.dart';
 import 'package:aplikasi_farmasi/providers/cek_interaksi_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CekInteraksiProvider()),
+        ChangeNotifierProvider(create: (_) => CariObatProvider()),
       ],
       child: MyApp(),
     ),
