@@ -13,6 +13,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordHashController;
   bool _isLoading = true;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -143,31 +144,56 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        prefixIcon:
-                            Icon(Icons.person, color: Colors.amber[600]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          labelText: 'Username',
+                          prefixIcon:
+                              Icon(Icons.person, color: Colors.amber[600]),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                      ),
-                      validator: (value) => value == null || value.isEmpty
-                          ? 'Username tidak boleh kosong'
-                          : null,
-                    ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Username tidak boleh kosong";
+                          } else if (value.trim().length < 4) {
+                            return "Username minimal 4 karakter";
+                          }
+                          return null;
+                        }),
                     SizedBox(height: 20),
                     TextFormField(
                       controller: _passwordHashController,
                       decoration: InputDecoration(
-                        labelText:
-                            'Password (kosongkan jika tidak diubah)',
+                        labelText: 'Password (kosongkan jika tidak diubah)',
                         prefixIcon: Icon(Icons.lock, color: Colors.amber[600]),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.amber[600],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      obscureText: true,
+
+                      obscureText: _obscurePassword,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return null;
+                        } else if (value.trim().length < 6) {
+                          return "Password minimal 6 karakter";
+                        }
+                        return null;
+                      },
                       // Tidak ada validator agar boleh kosong
                     ),
                     SizedBox(height: 30),
