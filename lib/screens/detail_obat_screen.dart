@@ -31,23 +31,29 @@ class _DetailObatScreenState extends State<DetailObatScreen> {
         final obat = obatProvider.detailObat;
 
         return Scaffold(
+          backgroundColor: Colors.grey[50],
           appBar: AppBar(
             title: Text('Detail Obat'),
-            backgroundColor: Colors.blue.shade700,
+            backgroundColor: Colors.blue[600],
+            foregroundColor: Colors.white,
           ),
           floatingActionButton: obat != null
-              ? FloatingActionButton(
-                  onPressed: () {
-                    bookmarkProvider.toggleBookmark(
-                      BookmarkObat(id: obat.id, nama: obat.names.first),
+              ? FutureBuilder<bool>(
+                  future: bookmarkProvider.isBookmarked(obat.id),
+                  builder: (context, snapshot) {
+                    final isMarked = snapshot.data ?? false;
+                    return FloatingActionButton(
+                      onPressed: () {
+                        bookmarkProvider.toggleBookmark(
+                          BookmarkObat(id: obat.id, nama: obat.names.first),
+                        );
+                      },
+                      backgroundColor: Colors.blue.shade700,
+                      child: Icon(
+                        isMarked ? Icons.bookmark : Icons.bookmark_border,
+                      ),
                     );
                   },
-                  backgroundColor: Colors.blue.shade700,
-                  child: Icon(
-                    bookmarkProvider.isBookmarked(obat.id)
-                        ? Icons.bookmark
-                        : Icons.bookmark_border,
-                  ),
                 )
               : null,
           body: isLoading
@@ -69,7 +75,8 @@ class _DetailObatScreenState extends State<DetailObatScreen> {
                           ),
                           SizedBox(height: 16),
                           buildInfoTile('ID KEGG', obat.id),
-                          buildInfoTile('Nama Lain', obat.names.skip(1).join(", ")),
+                          buildInfoTile(
+                              'Nama Lain', obat.names.skip(1).join(", ")),
                           buildInfoTile('Formula', obat.formula),
                           buildInfoTile('Berat Molekul', obat.weight),
                           buildInfoTile('Kelas Obat', obat.classDrug),
