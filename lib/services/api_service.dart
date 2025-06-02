@@ -1,5 +1,7 @@
 import 'package:http/http.dart' as http;
 
+import '../models/obat_detail_model.dart';
+
 class ApiService {
   static const String baseUrl = "https://rest.kegg.jp";
 
@@ -123,5 +125,11 @@ class ApiService {
       throw Exception('Gagal mengambil detail obat');
     }
   }
+
+  static Future<ObatDetail> getObatDetailParsed(String id) async {
+    final raw = await getObatDetailById(id); // method lama
+    return ObatDetail.fromRawText(raw);
+  }
+
 }
 

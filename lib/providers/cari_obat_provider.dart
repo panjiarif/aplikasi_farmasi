@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../models/obat_detail_model.dart';
 import '../services/api_service.dart';
 
 class ObatItem {
@@ -49,4 +50,25 @@ class CariObatProvider with ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // Detail Obat
+  ObatDetail? _detailObat;
+  bool _loading = false;
+
+  Future<void> fetchDetailObat(String id) async {
+    _loading = true;
+    notifyListeners();
+    try {
+      _detailObat = await ApiService.getObatDetailParsed(id);
+    } catch (e) {
+      _detailObat = null;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  ObatDetail? get detailObat => _detailObat;
+  bool get isLoadingDetailObat => _loading;
+
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
+import 'package:provider/provider.dart';
+import '../models/bookmark_obat_model.dart';
+import '../providers/bookmark_provider.dart';
+import '../providers/cari_obat_provider.dart';
 
 class DetailObatScreen extends StatefulWidget {
   final String idObat;
@@ -11,39 +14,82 @@ class DetailObatScreen extends StatefulWidget {
 }
 
 class _DetailObatScreenState extends State<DetailObatScreen> {
-  String _detail = '';
-  bool _loading = true;
-
   @override
   void initState() {
     super.initState();
-    _fetchDetail();
-  }
-
-  Future<void> _fetchDetail() async {
-    try {
-      final detail = await ApiService.getObatDetailById(widget.idObat);
-      setState(() {
-        _detail = detail;
-        _loading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _detail = 'Gagal mengambil data: $e';
-        _loading = false;
-      });
-    }
+    Future.microtask(() {
+      Provider.of<CariObatProvider>(context, listen: false)
+          .fetchDetailObat(widget.idObat);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Detail Obat')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: _loading
-            ? Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(child: Text(_detail)),
+    return Consumer2<CariObatProvider, BookmarkProvider>(
+      builder: (context, obatProvider, bookmarkProvider, _) {
+        final isLoading = obatProvider.isLoadingDetailObat;
+        final obat = obatProvider.detailObat;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Detail Obat'),
+            backgroundColor: Colors.blue.shade700,
+          ),
+          floatingActionButton: obat != null
+              ? FloatingActionButton(
+                  onPressed: () {
+                    bookmarkProvider.toggleBookmark(
+                      BookmarkObat(id: obat.id, nama: obat.names.first),
+                    );
+                  },
+                  backgroundColor: Colors.blue.shade700,
+                  child: Icon(
+                    bookmarkProvider.isBookmarked(obat.id)
+                        ? Icons.bookmark
+                        : Icons.bookmark_border,
+                  ),
+                )
+              : null,
+          body: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : obat == null
+                  ? Center(child: Text('Gagal mengambil detail.'))
+                  : Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(16),
+                      child: ListView(
+                        children: [
+                          Text(
+                            obat.names.first,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue.shade800,
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          buildInfoTile('ID KEGG', obat.id),
+                          buildInfoTile('Nama Lain', obat.names.skip(1).join(", ")),
+                          buildInfoTile('Formula', obat.formula),
+                          buildInfoTile('Berat Molekul', obat.weight),
+                          buildInfoTile('Kelas Obat', obat.classDrug),
+                          buildInfoTile('Efek / Efikasi', obat.efficacy),
+                        ],
+                      ),
+                    ),
+        );
+      },
+    );
+  }
+
+  Widget buildInfoTile(String title, String content) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      child: ListTile(
+        tileColor: Colors.blue.shade50,
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(content.isNotEmpty ? content : '-'),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cari_obat_provider.dart';
+import 'bookmark_screen.dart';
 import 'detail_obat_screen.dart';
 
 class CariObatScreen extends StatefulWidget {
@@ -69,6 +70,15 @@ class _CariObatScreenState extends State<CariObatScreen> {
         backgroundColor: Colors.blue[600],
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white),
+      ),
+      floatingActionButton: ElevatedButton(
+        child: Text("Lihat Bookmark"),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => BookmarkScreen()),
+          );
+        },
       ),
       body: Column(
         children: [
