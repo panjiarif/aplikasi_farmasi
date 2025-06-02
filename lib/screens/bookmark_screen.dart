@@ -32,14 +32,16 @@ class BookmarkScreen extends StatelessWidget {
                       context: context,
                       builder: (_) => AlertDialog(
                         title: Text('Hapus Bookmark'),
-                        content: Text('Apakah Anda yakin ingin menghapus "${obat.nama}" dari bookmark?'),
+                        content: Text(
+                            'Apakah Anda yakin ingin menghapus "${obat.nama}" dari bookmark?'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
                             child: Text('Batal'),
                           ),
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
                             onPressed: () => Navigator.of(context).pop(true),
                             child: Text('Hapus'),
                           ),
@@ -65,7 +67,8 @@ class BookmarkScreen extends StatelessWidget {
                   child: Card(
                     color: Colors.white,
                     elevation: 2,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                     child: ListTile(
                       title: Text(
                         obat.nama,

@@ -50,7 +50,7 @@ class SaranScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        "Bantu kami meningkatkan layanan MediSearch",
+                        "Bantu kami meningkatkan layanan Pharma Care",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -232,7 +232,7 @@ class SaranScreen extends StatelessWidget {
                                 color: Colors.blue[600], size: 16),
                             SizedBox(width: 6),
                             Text(
-                              "support@medisearch.com",
+                              "support@pharmacare.com",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.blue[600],
