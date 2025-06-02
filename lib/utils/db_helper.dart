@@ -48,4 +48,15 @@ class DBHelper {
     }
     return null;
   }
+  
+  Future<int> updateUser(UserModel user) async {
+    final dbClient = await db;
+    return await dbClient.update(
+      'users',
+      user.toMap(),
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
+  }
+
 }

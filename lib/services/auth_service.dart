@@ -30,7 +30,7 @@ class AuthService {
 
     final hash = hashPassword(password);
     if (user.passwordHash == hash) {
-      await SessionManager.setLoginSession(username);
+      await SessionManager.setLoginSession(user.id!, user.username);
       return true;
     }
     return false;
