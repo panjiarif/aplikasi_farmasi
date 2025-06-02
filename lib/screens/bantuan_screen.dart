@@ -1,3 +1,4 @@
+import 'package:aplikasi_farmasi/screens/user_pofile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/session_manager.dart';
@@ -112,6 +113,29 @@ class BantuanScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+            ),
+
+            // Akun pengguna
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Akun Section
+                  _buildHelpCard(
+                    title: "Akun Pengguna",
+                    subtitle: "Kelola akun anda di sini!",
+                    icon: Icons.person_outline,
+                    color: Colors.amber,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserProfileScreen()));
+                    },
+                  ),
+                ],
               ),
             ),
 
