@@ -1,6 +1,7 @@
 import 'package:aplikasi_farmasi/providers/bookmark_provider.dart';
 import 'package:aplikasi_farmasi/providers/cari_obat_provider.dart';
 import 'package:aplikasi_farmasi/providers/cek_interaksi_provider.dart';
+import 'package:aplikasi_farmasi/providers/location_provider.dart';
 import 'package:aplikasi_farmasi/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => CariObatProvider()),
         ChangeNotifierProvider(create: (_) => BookmarkProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: MyApp(),
     ),

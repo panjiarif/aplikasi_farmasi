@@ -334,8 +334,8 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 // Header dialog
                 Container(
-                  width: 80,
-                  height: 80,
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
                     border: Border.all(color: color.withOpacity(0.3), width: 3),
@@ -391,7 +391,7 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   profile['nama']!,
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey[800],
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'cari_lokasi_screen.dart';
 import 'cari_obat_screen.dart';
 import 'cek_interaksi_screen.dart';
 
@@ -111,6 +112,23 @@ class HomeScreen extends StatelessWidget {
                             builder: (context) => CariObatScreen()),
                       );
                     },
+                  ),
+
+                  // Card Apotek & Toko Obat terdekat
+                  SizedBox(height: 16),
+                  _buildMenuCard(
+                    context,
+                    title: "Cari Apotek & Toko Obat",
+                    subtitle: "Temukan apotek dan toko obat terdekat",
+                    icon: Icons.local_pharmacy_rounded,
+                    color: Colors.green,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CariLokasiScreen()),
+                      );
+                    }  
                   ),
 
                   SizedBox(height: 30),
