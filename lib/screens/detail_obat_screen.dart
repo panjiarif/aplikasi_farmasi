@@ -106,6 +106,30 @@ class _DetailObatScreenState extends State<DetailObatScreen>
               : obat == null
                   ? _buildErrorState()
                   : _buildDetailContent(obat),
+          // membuat floating action button untuk memunculkan pop up kalkulator konversi kurs mata uang
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              // Aksi untuk menampilkan kalkulator konversi kurs mata uang
+              // Misalnya, bisa membuka dialog atau layar baru
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Kalkulator Konversi Obat"),
+                    content: Text("Fitur ini akan segera hadir!"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text("Tutup"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            backgroundColor: Colors.blue[600],
+            child: Icon(Icons.calculate),
+          ),
         );
       },
     );

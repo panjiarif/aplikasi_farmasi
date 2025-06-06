@@ -8,15 +8,73 @@ import 'package:collection/collection.dart'; // Import ini untuk firstWhereOrNul
 class JadwalObatProvider with ChangeNotifier {
   final List<JadwalObat> _schedules = [];
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   JadwalObatProvider(this.flutterLocalNotificationsPlugin);
 
   List<JadwalObat> get schedules => _schedules;
 
+  // Tambahkan metode ini untuk testing notifikasi instan
+  Future<void> showAddNotification({required String title, required String body}) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'test_channel_id', // Channel ID baru untuk tes
+      'Test Notifikasi',  // Nama channel untuk tes
+      channelDescription: 'Channel untuk menguji notifikasi instan',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker text', // Teks yang muncul sebentar di status bar
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // Langsung tampilkan notifikasi sekarang
+    await flutterLocalNotificationsPlugin.show(
+      0, // ID notifikasi unik (gunakan 0 atau angka lain yang tidak akan bentrok)
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: 'test_payload',
+    );
+    print('Notifikasi tes instan telah dipicu.');
+  }
+
+  // Metode untuk menjadwalkan notifikasi dengan penundaan singkat untuk debugging
+  Future<void> scheduleDelayedTestNotification(int delaySeconds) async {
+    final tz.TZDateTime scheduledTime = tz.TZDateTime.now(tz.local).add(Duration(seconds: delaySeconds));
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'delayed_test_channel_id', // Channel ID baru untuk tes tertunda
+      'Test Notifikasi Tertunda',
+      channelDescription: 'Channel untuk menguji notifikasi dengan penundaan',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      1, // ID notifikasi unik
+      'Notifikasi Tes Tertunda',
+      'Ini adalah notifikasi tes yang dijadwalkan untuk $delaySeconds detik kemudian!',
+      scheduledTime,
+      platformChannelSpecifics,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time, // Tetap gunakan ini untuk konsistensi, meskipun tidak relevan untuk delay singkat
+    );
+    print('Notifikasi tes tertunda dijadwalkan pada: $scheduledTime');
+  }
+
   Future<void> loadSchedules() async {
+    _isLoading = true;
+    notifyListeners();
     _schedules.clear();
     final data = await JadwalDbHelper().getAllJadwal();
     _schedules.addAll(data);
+    _isLoading = false;
     notifyListeners();
     // Opsional: Jadwalkan ulang notifikasi yang sudah ada saat aplikasi dimuat
     // agar notifikasi yang mungkin hilang setelah reboot perangkat bisa kembali

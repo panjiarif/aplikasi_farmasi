@@ -18,6 +18,8 @@ class _TambahJadwalScreenState extends State<TambahJadwalScreen> {
 
   @override
   Widget build(BuildContext context) {
+  final provider = Provider.of<JadwalObatProvider>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text("Tambah Jadwal Obat")),
       body: Padding(
@@ -68,7 +70,10 @@ class _TambahJadwalScreenState extends State<TambahJadwalScreen> {
                   );
 
                   Provider.of<JadwalObatProvider>(context, listen: false).addSchedule(schedule);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Jadwal obat disimpan!")));
+                  provider.showAddNotification(
+                    title: 'Jadwal Obat Ditambahkan',
+                    body: 'Jadwal minum obat $_nama telah ditambahkan.',
+                  );
                   Navigator.pop(context);
                 }
               },

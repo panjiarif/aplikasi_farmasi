@@ -24,97 +24,101 @@ class JadwalObatScreen extends StatelessWidget {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: jadwalList.isEmpty
-          ? const Center(
-              child: Text(
-                'Belum ada jadwal minum obat',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            )
-          : Column(
-              children: [
-                Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.red[600]!, Colors.red[400]!],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
+      body: provider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : jadwalList.isEmpty
+              ? const Center(
+                  child: Text(
+                    'Belum ada jadwal minum obat',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
-                  child: const Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Icon(Icons.alarm_on_rounded, size: 40, color: Colors.white),
-                        Text(
-                          "Pantau jadwal minum obat Anda",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                )
+              : Column(
+                  children: [
+                    Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.red[600]!, Colors.red[400]!],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: jadwalList.length,
-                    itemBuilder: (ctx, i) {
-                      final jadwal = jadwalList[i];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          title: Text(
-                            jadwal.namaObat,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                      ),
+                      child: const Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            Icon(Icons.alarm_on_rounded,
+                                size: 40, color: Colors.white),
+                            Text(
+                              "Pantau jadwal minum obat Anda",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
-                          ),
-                          subtitle: Text(
-                            'Aturan: ${jadwal.frekuensi}x sehari (${jadwal.aturanMinum})\nJam mulai: ${jadwal.jamMulai}',
-                          ),
-                          trailing: PopupMenuButton<String>(
-                            onSelected: (value) async {
-                              if (value == 'edit') {
-                                // Navigasi ke form edit
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => TambahJadwalScreen(),
-                                  ),
-                                );
-                              } else if (value == 'hapus') {
-                                provider.deleteSchedule(jadwal.id!);
-                              }
-                            },
-                            itemBuilder: (ctx) => [
-                              const PopupMenuItem(
-                                value: 'edit',
-                                child: Text('Edit'),
-                              ),
-                              const PopupMenuItem(
-                                value: 'hapus',
-                                child: Text('Hapus'),
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: jadwalList.length,
+                        itemBuilder: (ctx, i) {
+                          final jadwal = jadwalList[i];
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(16),
+                              title: Text(
+                                jadwal.namaObat,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'Aturan: ${jadwal.frekuensi}x sehari (${jadwal.aturanMinum})\nJam mulai: ${jadwal.jamMulai}',
+                              ),
+                              trailing: PopupMenuButton<String>(
+                                onSelected: (value) async {
+                                  if (value == 'edit') {
+                                    // Navigasi ke form edit
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => TambahJadwalScreen(),
+                                      ),
+                                    );
+                                  } else if (value == 'hapus') {
+                                    provider.deleteSchedule(jadwal.id!);
+                                  }
+                                },
+                                itemBuilder: (ctx) => [
+                                  const PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text('Edit'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 'hapus',
+                                    child: Text('Hapus'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
