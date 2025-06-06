@@ -50,16 +50,6 @@ void main() async{
     onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
       // Handler ketika notifikasi diklik (aplikasi di foreground/background)
       print('Notification clicked: ${notificationResponse.payload}');
-      // Di sini Anda bisa menambahkan logika untuk menanggapi klik notifikasi,
-      // misalnya navigasi ke halaman detail obat
-      // final String? payload = notificationResponse.payload;
-      // if (payload != null) {
-      //   debugPrint('notification payload: $payload');
-      // }
-      // await Navigator.push(
-      //   context, // Anda mungkin perlu cara lain untuk mendapatkan context di sini
-      //   MaterialPageRoute(builder: (context) => DetailObatScreen(obatId: int.parse(payload))),
-      // );
     },
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
