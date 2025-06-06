@@ -39,27 +39,35 @@ class JadwalObatScreen extends StatelessWidget {
                       height: 120,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.red[600]!, Colors.red[400]!],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
+                          colors: [Colors.red[600]!, Colors.red[400]!],
                         ),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                         ),
                       ),
-                      child: const Center(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20),
-                            Icon(Icons.alarm_on_rounded,
-                                size: 40, color: Colors.white),
-                            Text(
-                              "Pantau jadwal minum obat Anda",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ],
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.alarm_on_rounded,
+                                  size: 40, color: Colors.white),
+                              SizedBox(height: 8),
+                              Text(
+                                "Pantau jadwal minum obat Anda",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

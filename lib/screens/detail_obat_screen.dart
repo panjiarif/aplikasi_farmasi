@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/bookmark_obat_model.dart';
 import '../providers/bookmark_provider.dart';
 import '../providers/cari_obat_provider.dart';
+import '../widgets/kalkulator_konversi.dart';
 
 class DetailObatScreen extends StatefulWidget {
   final String idObat;
@@ -109,20 +110,16 @@ class _DetailObatScreenState extends State<DetailObatScreen>
           // membuat floating action button untuk memunculkan pop up kalkulator konversi kurs mata uang
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // Aksi untuk menampilkan kalkulator konversi kurs mata uang
-              // Misalnya, bisa membuka dialog atau layar baru
               showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    title: Text("Kalkulator Konversi Obat"),
-                    content: Text("Fitur ini akan segera hadir!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text("Tutup"),
-                      ),
-                    ],
+                  // Menggunakan ConstrainedBox untuk memberi lebar maksimum pada dialog
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width *
+                          0.8, // 90% dari lebar layar
+                    ),
+                    child: const KalkulatorKonversi(),
                   );
                 },
               );
