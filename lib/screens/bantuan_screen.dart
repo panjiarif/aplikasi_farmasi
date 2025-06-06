@@ -64,13 +64,6 @@ class BantuanScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
-        actions: [
-          IconButton(
-            onPressed: () => _logout(context),
-            icon: Icon(Icons.logout, color: Colors.white),
-            tooltip: 'Logout',
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
