@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:aplikasi_farmasi/widgets/waktu_dunia.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -123,6 +124,19 @@ class _CariLokasiScreenState extends State<CariLokasiScreen> {
             },
           );
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const WaktuDunia();
+            },
+          );
+        },
+        backgroundColor: Colors.green[400],
+        child: Icon(Icons.access_time),
       ),
     );
   }

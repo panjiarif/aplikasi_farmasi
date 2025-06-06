@@ -174,7 +174,7 @@ class _KalkulatorKonversiState extends State<KalkulatorKonversi> {
   Widget build(BuildContext context) {
     return AlertDialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 16.0),
-      title: const Text("Kalkulator Konversi Mata Uang"),
+      title: const Text("Konversi Harga Obat"),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
