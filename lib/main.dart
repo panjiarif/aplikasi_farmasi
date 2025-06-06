@@ -1,17 +1,69 @@
 import 'package:aplikasi_farmasi/providers/bookmark_provider.dart';
 import 'package:aplikasi_farmasi/providers/cari_obat_provider.dart';
 import 'package:aplikasi_farmasi/providers/cek_interaksi_provider.dart';
+import 'package:aplikasi_farmasi/providers/jadwal_obat_provider.dart';
 import 'package:aplikasi_farmasi/providers/location_provider.dart';
 import 'package:aplikasi_farmasi/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'screens/login_screen.dart';
 import 'screens/main_nav_screen.dart';
 import 'screens/register_screen.dart';
 import 'utils/session_manager.dart';
 
-void main() {
+// Definisi plugin notifikasi di luar main agar bisa diakses global jika perlu
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+// Fungsi handler untuk background notification tap
+// Harus berupa top-level function (di luar class)
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse notificationResponse) {
+  print('Notification clicked in background: ${notificationResponse.payload}');
+  // Tambahkan logika navigasi atau penanganan lain di sini
+  // Misalnya, Anda bisa menyimpan payload ke SharedPreferences dan menanganinya di main.dart
+}
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Inisialisasi zona waktu
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Jakarta')); // Sesuaikan dengan zona waktu lokal Anda
+
+  // Konfigurasi settings untuk Android
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // Konfigurasi settings keseluruhan
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    // iOS: DarwinInitializationSettings(), // Jika Anda juga mendukung iOS
+  );
+
+  // Inisialisasi plugin notifikasi dengan handler
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+      // Handler ketika notifikasi diklik (aplikasi di foreground/background)
+      print('Notification clicked: ${notificationResponse.payload}');
+      // Di sini Anda bisa menambahkan logika untuk menanggapi klik notifikasi,
+      // misalnya navigasi ke halaman detail obat
+      // final String? payload = notificationResponse.payload;
+      // if (payload != null) {
+      //   debugPrint('notification payload: $payload');
+      // }
+      // await Navigator.push(
+      //   context, // Anda mungkin perlu cara lain untuk mendapatkan context di sini
+      //   MaterialPageRoute(builder: (context) => DetailObatScreen(obatId: int.parse(payload))),
+      // );
+    },
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
+  
   runApp(
     MultiProvider(
       providers: [
@@ -20,6 +72,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => BookmarkProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => JadwalObatProvider(flutterLocalNotificationsPlugin)..loadSchedules()),
       ],
       child: MyApp(),
     ),

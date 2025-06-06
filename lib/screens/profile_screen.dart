@@ -15,16 +15,17 @@ class ProfileScreen extends StatelessWidget {
       'jurusan': 'Teknik Informatika',
       'foto': 'assets/images/profile.jpg',
     },
-    {
-      'nama': 'Josua Waruwu',
-      'nim': '123220083',
-      'email': 'josua@gmail.com',
-      'nomorHP': '0812-xxxx-xxxx',
-      'alamat': 'Medan Kota, Sumatera Utara',
-      'status': 'Mahasiswa Informatika',
-      'jurusan': 'Teknik Informatika',
-      'foto': 'assets/images/Me.jpg',
-    },
+    // {
+    //   'nama': 'Josua Waruwu',
+    //   'nim': '123220083',
+    //   'email': 'josua@gmail.com',
+    //   'nomorHP': '0812-xxxx-xxxx',
+    //   'alamat': 'Medan Kota, Sumatera Utara',
+    //   'status': 'Mahasiswa Informatika',
+    //   'jurusan': 'Teknik Informatika',
+    //   'foto': 'assets/images/Me.jpg',
+    // },
+    // tambahkan data baru untuk membuat card profile baru
   ];
 
   @override
@@ -167,7 +168,8 @@ class ProfileScreen extends StatelessWidget {
     // Warna untuk setiap card
     List<Color> cardColors = [
       Colors.indigo,
-      const Color.fromARGB(255, 176, 89, 39)
+      const Color.fromARGB(255, 176, 89, 39),
+      Colors.orange,
     ];
     Color cardColor = cardColors[index % cardColors.length];
 

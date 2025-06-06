@@ -20,15 +20,17 @@ class _CariLokasiScreenState extends State<CariLokasiScreen> {
   void _toggleMotionControl() {
     if (_motionControlEnabled) {
       _accelerometerSubscription?.cancel();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Kontrol sensor dimatikan")),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Kontrol sensor dimatikan"),
+        duration: Duration(seconds: 1),
+        backgroundColor: Colors.red[400],
+      ));
     } else {
       _accelerometerSubscription = accelerometerEvents.listen((event) {
         if (_currentLatLng == null || _mapController == null) return;
 
-        final newLat = _currentLatLng!.latitude + event.y * 0.00005;
-        final newLng = _currentLatLng!.longitude + event.x * 0.00005;
+        final newLat = _currentLatLng!.latitude + event.y * 0.0001;
+        final newLng = _currentLatLng!.longitude + event.x * 0.0001;
 
         _currentLatLng = LatLng(newLat, newLng);
 
@@ -38,7 +40,10 @@ class _CariLokasiScreenState extends State<CariLokasiScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Kontrol sensor diaktifkan")),
+        SnackBar(
+            content: Text("Kontrol sensor diaktifkan"),
+            duration: Duration(seconds: 1),
+            backgroundColor: Colors.green[400]),
       );
     }
 
@@ -57,7 +62,11 @@ class _CariLokasiScreenState extends State<CariLokasiScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cari Lokasi Apotek"),
+        title: Text('Apotek Terdekat',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
         backgroundColor: Colors.green[400],
         centerTitle: true,
         actions: [

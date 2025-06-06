@@ -109,29 +109,6 @@ class BantuanScreen extends StatelessWidget {
               ),
             ),
 
-            // Akun pengguna
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Akun Section
-                  _buildHelpCard(
-                    title: "Akun Pengguna",
-                    subtitle: "Kelola akun anda di sini!",
-                    icon: Icons.person_outline,
-                    color: Colors.amber,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserProfileScreen()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -146,6 +123,21 @@ class BantuanScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+
+                  // Akun Section
+                  _buildHelpCard(
+                    title: "Akun Pengguna",
+                    subtitle: "Kelola akun anda di sini!",
+                    icon: Icons.person_outline,
+                    color: Colors.amber,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserProfileScreen()));
+                    },
+                  ),
+                  SizedBox(height: 16),
 
                   // FAQ Section
                   _buildHelpCard(

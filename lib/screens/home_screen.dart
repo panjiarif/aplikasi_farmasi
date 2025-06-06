@@ -1,3 +1,4 @@
+import 'package:aplikasi_farmasi/screens/jadwal_obat_screen.dart';
 import 'package:flutter/material.dart';
 import 'cari_lokasi_screen.dart';
 import 'cari_obat_screen.dart';
@@ -95,7 +96,6 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-
                   SizedBox(height: 16),
 
                   // Card Cari Obat
@@ -113,23 +113,34 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  SizedBox(height: 16),
 
                   // Card Apotek & Toko Obat terdekat
+                  _buildMenuCard(context,
+                      title: "Cari Apotek Terdekat",
+                      subtitle: "Temukan apotek dan toko obat terdekat",
+                      icon: Icons.local_pharmacy_rounded,
+                      color: Colors.green, onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CariLokasiScreen()),
+                    );
+                  }),
                   SizedBox(height: 16),
-                  _buildMenuCard(
-                    context,
-                    title: "Cari Apotek & Toko Obat",
-                    subtitle: "Temukan apotek dan toko obat terdekat",
-                    icon: Icons.local_pharmacy_rounded,
-                    color: Colors.green,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CariLokasiScreen()),
-                      );
-                    }  
-                  ),
+
+                  // Card Pengingat minum obat
+                  _buildMenuCard(context,
+                      title: "Jadwal Minum Obat",
+                      subtitle: "Setting alaram pengingat minum obat",
+                      icon: Icons.alarm_on_rounded,
+                      color: Colors.red, onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => JadwalObatScreen()),
+                    );
+                  }),
 
                   SizedBox(height: 30),
 
