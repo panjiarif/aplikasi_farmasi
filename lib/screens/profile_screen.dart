@@ -10,21 +10,11 @@ class ProfileScreen extends StatelessWidget {
       'nim': '123220091',
       'email': 'panji@gmail.com',
       'nomorHP': '0838-xxxx-xxxx',
-      'alamat': 'Surokarsa MGII/538, Yogyakarta',
+      'alamat': 'Surokarsa MGII/522, Yogyakarta',
       'status': 'Mahasiswa Informatika',
       'jurusan': 'Teknik Informatika',
       'foto': 'assets/images/profile.jpg',
     },
-    // {
-    //   'nama': 'Josua Waruwu',
-    //   'nim': '123220083',
-    //   'email': 'josua@gmail.com',
-    //   'nomorHP': '0812-xxxx-xxxx',
-    //   'alamat': 'Medan Kota, Sumatera Utara',
-    //   'status': 'Mahasiswa Informatika',
-    //   'jurusan': 'Teknik Informatika',
-    //   'foto': 'assets/images/Me.jpg',
-    // },
     // tambahkan data baru untuk membuat card profile baru
   ];
 

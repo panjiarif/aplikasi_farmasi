@@ -424,10 +424,16 @@ class BantuanScreen extends StatelessWidget {
                     "2. Untuk cek interaksi, gunakan menu 'Cek Interaksi Obat'"),
                 SizedBox(height: 8),
                 Text(
-                    "3. Selalu konsultasikan dengan dokter untuk penggunaan obat"),
+                    "3. Untuk mencari apotek terdekat, gunakan menu 'Cari Apotek Terdekat'"),
                 SizedBox(height: 8),
                 Text(
-                    "4. Gunakan fitur saran untuk memberikan masukan kepada kami"),
+                    "4. Untuk membuat pengingat minum obat, gunakan menu 'Jadwal Minum Obat'"),
+                SizedBox(height: 8),
+                Text(
+                    "5. Selalu konsultasikan dengan dokter untuk penggunaan obat"),
+                SizedBox(height: 8),
+                Text(
+                    "6. Gunakan fitur saran untuk memberikan masukan kepada kami"),
               ],
             ),
           ),
@@ -500,7 +506,7 @@ class BantuanScreen extends StatelessWidget {
               Text(
                   "Aplikasi pencarian informasi obat dan pengecekan interaksi obat yang aman dan terpercaya."),
               SizedBox(height: 16),
-              Text("© 2024 PharmaCare Team",
+              Text("© 2025 PharmaCare Team",
                   style: TextStyle(color: Colors.grey[600])),
             ],
           ),

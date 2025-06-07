@@ -198,8 +198,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                     SizedBox(height: 30),
                     ElevatedButton.icon(
-                      onPressed: _saveProfile,
-                      icon: Icon(Icons.save),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Konfirmasi Perubahan'),
+                            content: Text(
+                                'Apakah Anda yakin ingin menyimpan perubahan ini?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.grey[800],
+                                ),
+                                child: Text('Batal'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _saveProfile();
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.amber[600],
+                                  foregroundColor: Colors.grey[50],
+                                ),
+                                child: Text('Ya, Simpan'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.save, color: Colors.black),
                       label: Text('Simpan Perubahan'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber[600],
