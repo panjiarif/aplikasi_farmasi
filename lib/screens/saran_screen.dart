@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/saran_pak_bagus.dart';
+
 class SaranScreen extends StatelessWidget {
   const SaranScreen({super.key});
 
@@ -19,6 +21,31 @@ class SaranScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const SaranPakBagus();
+              });
+        },
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.all(16),
+          backgroundColor: Colors.teal[600],
+        ),
+        child: Text(
+          "Untuk Pak Bagus",
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
