@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../models/jadwal_obat_model.dart';
 import '../providers/jadwal_obat_provider.dart';
-import 'tambah_jadwal_screen.dart';
+import 'tambah_jadwal_screen.dart'; // Pastikan path ini benar
 
 class JadwalObatScreen extends StatelessWidget {
   const JadwalObatScreen({super.key});
@@ -54,8 +55,7 @@ class JadwalObatScreen extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.alarm_on_rounded,
-                                  size: 40, color: Colors.white),
+                              Icon(Icons.alarm_on_rounded, size: 40, color: Colors.white),
                               SizedBox(height: 8),
                               Text(
                                 "Pantau jadwal minum obat Anda",
@@ -93,16 +93,17 @@ class JadwalObatScreen extends StatelessWidget {
                                 ),
                               ),
                               subtitle: Text(
-                                'Aturan: ${jadwal.frekuensi}x sehari (${jadwal.aturanMinum})\nJam mulai: ${jadwal.jamMulai}',
+                                // Menggunakan DateFormat untuk hanya menampilkan jam dan menit
+                                'Aturan: ${jadwal.frekuensi}x sehari (${jadwal.aturanMinum})\nJam mulai: ${DateFormat('HH:mm').format(jadwal.jamMulai)}',
                               ),
                               trailing: PopupMenuButton<String>(
                                 onSelected: (value) async {
                                   if (value == 'edit') {
-                                    // Navigasi ke form edit
+                                    // Navigasi ke form edit dan TERUSKAN DATA JADWAL
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => TambahJadwalScreen(),
+                                        builder: (_) => TambahJadwalScreen(initialSchedule: jadwal),
                                       ),
                                     );
                                   } else if (value == 'hapus') {
@@ -132,7 +133,7 @@ class JadwalObatScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => TambahJadwalScreen(),
+              builder: (_) => const TambahJadwalScreen(), // Untuk tambah baru, tidak perlu passing data
             ),
           );
         },
